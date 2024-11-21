@@ -1,8 +1,8 @@
-import { Billboard } from "@/types";
+import { Product } from "@/types";
 
-const URL = `${process.env.NEXT_PUBLIC_API_URL}/billboards`;
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 
-export const getBillboards = async (id: string): Promise<Billboard> => {
+export const getProductId = async (id: string): Promise<Product> => {
   const response = await fetch(`${URL}/${id}`);
 
   const data = await response.json();
