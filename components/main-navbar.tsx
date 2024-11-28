@@ -11,7 +11,7 @@ const MainNav:React.FC<MainNavProps> = ({data}) => {
 
   const pathname = usePathname();
   const routes = data.map((route) => ({
-    href: `category/${route.id}`,
+    href: `/category/${route.id}`,
     label: route.name,
     active: pathname === `/category/${route.id}`,
   }));
@@ -20,7 +20,7 @@ const MainNav:React.FC<MainNavProps> = ({data}) => {
     <NavigationMenuList>
         <NavigationMenuItem>
           {routes.map((route) => (
-              <Link href="route.href" legacyBehavior passHref key={route.href}>
+              <Link href={route.href} legacyBehavior passHref key={route.href}>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 {route.label}
               </NavigationMenuLink>

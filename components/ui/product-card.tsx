@@ -7,21 +7,36 @@ import { Expand, ShoppingCart } from "lucide-react";
 
 import Currency from "./currency";
 import { useRouter } from "next/navigation";
+import { MouseEventHandler } from "react";
+import usePreviewModal from "@/hooks/use-preview-modal";
+import useCart from "@/hooks/use-cart";
 
 interface ProductCardProps {
   item: Product;
 }
 const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
+  const router = useRouter();
 
-  const router=useRouter()
+  const previewModal = usePreviewModal();
+  const cart = useCart();
 
-  const handleClick=()=>{
-    router.push(`/products/${item.id}`)
+  const handleClick = () => {
+    router.push(`/products/${item.id}`);
+  };
 
-
-  }
+  const onPreview: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    previewModal.onOpen(item);
+  };
+  const onAddToCart: MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    cart.addItem(item)
+  };
   return (
-    <Card onClick={handleClick} className="group cursor-pointer rounded-xl p-3 space-y-2 relative">
+    <Card
+      onClick={handleClick}
+      className="group cursor-pointer rounded-xl p-3 space-y-2 relative"
+    >
       <div className="aspect-square rounded-xl relative overflow-hidden">
         <Image
           className="aspect-square object-cover"
@@ -33,14 +48,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
           <div className="flex justify-center gap-x-2">
             <Button
               variant={"ghost"}
-              onClick={() => {}}
+              onClick={onPreview}
               className="rounded-full flex items-center justify-center border shadow-md hover:scale-110 transition p-2"
             >
               <Expand size={20} />
             </Button>
             <Button
               variant={"ghost"}
-              onClick={() => {}}
+              onClick={onAddToCart}
               className="rounded-full flex items-center justify-center border shadow-md hover:scale-110 transition p-2"
             >
               <ShoppingCart size={20} />
@@ -48,12 +63,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ item }) => {
           </div>
         </div>
       </div>
-      
-        <div className="flex flex-col justify-start">
-          <p className="font-semibold text-lg">{item.name}</p>
-          <p className="text-sm text-gray-500">{item.category.name}</p>
-        </div>
-      
+
+      <div className="flex flex-col justify-start">
+        <p className="font-semibold text-lg">{item.name}</p>
+        <p className="text-sm text-gray-500">{item.category.name}</p>
+      </div>
+
       <div className=" bottom-3 left-3">
         <Currency value={item?.price} />
       </div>

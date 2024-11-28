@@ -24,5 +24,5 @@ export interface Image {
 export interface Size {
   id: string;
   name: string;
-  vaue: string;
+  value: string;
 }
